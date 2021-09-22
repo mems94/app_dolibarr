@@ -1,0 +1,38 @@
+// Container(
+          //   alignment: Alignment.topCenter,
+          //   // padding: EdgeInsets.only(left: 20.0),
+          //   child: Center(
+          //     child: Row(
+          //       children: [
+          //         ElevatedButton(
+          //           style: ElevatedButton.styleFrom(
+          //             primary: Colors.green,
+          //             textStyle: TextStyle(
+          //               color: Colors.white,
+          //               fontWeight: FontWeight.bold,
+          //             ),
+          //           ),
+          //           onPressed: () =>
+          //               Navigator.pushNamed(context, '/nouveautiers'),
+          //           child: Text(
+          //             'Nouveau',
+          //           ),
+          //         ),
+          //         Padding(
+          //           padding: EdgeInsets.only(left: 20.0),
+          //         ),
+          //         ElevatedButton(
+          //           style: ElevatedButton.styleFrom(
+          //             primary: Colors.green,
+          //             textStyle: TextStyle(
+          //               color: Colors.white,
+          //               fontWeight: FontWeight.bold,
+          //             ),
+          //           ),
+          //           onPressed: () => debugPrint("Mis en ligne"),
+          //           child: Text('Mettre en ligne'),
+          //         )
+          //       ],
+          //     ),
+          //   ),
+          // ),

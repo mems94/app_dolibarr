@@ -1,0 +1,30 @@
+class ProduitTiers {
+  int id;
+  String contact;
+  String date;
+  double prixUnitaire;
+  int quantite;
+
+  ProduitTiers(
+      this.id, this.contact, this.date, this.prixUnitaire, this.quantite);
+
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{
+      'id': id,
+      'contact': contact,
+      'date': date,
+      'prixUnitaire': prixUnitaire,
+      'quantite': quantite
+    };
+
+    return map;
+  }
+
+  ProduitTiers.fromMap(Map<String, dynamic> map) {
+    id = map['id'];
+    contact = map['contact'];
+    date = map['date'];
+    prixUnitaire = map['prixUnitaire'];
+    quantite = map['quantite'];
+  }
+}
