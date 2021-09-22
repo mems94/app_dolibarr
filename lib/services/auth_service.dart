@@ -8,7 +8,9 @@ class AuthService {
 
   Future<String> login(String username, String password) async {
     final response = await client
-        .post(Uri.parse('$BASE_URL/login?login=$username&password=$password'));
+        .get(Uri.parse('$BASE_URL/login?login=$username&password=$password'));
     final body = json.decode(response.body);
+
+    return body["success"]["token"];
   }
 }
