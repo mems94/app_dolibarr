@@ -3,7 +3,7 @@ import 'package:app_dolibarr/models/produit_tiers.dart';
 import 'package:app_dolibarr/screens/contact.dart';
 import 'package:app_dolibarr/utilities/dbHelper_innerjoin.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+//import 'package:http/http.dart' as http;
 
 class AppDolibarr extends StatefulWidget {
   @override
