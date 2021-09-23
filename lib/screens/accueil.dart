@@ -1,10 +1,11 @@
+import 'package:app_dolibarr/components/drawer.dart';
 import 'package:app_dolibarr/models/produit.dart';
 import 'package:app_dolibarr/models/produit_tiers.dart';
 import 'package:app_dolibarr/screens/contact.dart';
 import 'package:app_dolibarr/screens/nouveau_tiers.dart';
 import 'package:app_dolibarr/utilities/dbHelper_innerjoin.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+//import 'package:http/http.dart' as http;
 
 class AppDolibarr extends StatefulWidget {
   @override
@@ -145,6 +146,7 @@ class _AppDolibarrState extends State<AppDolibarr> {
   Widget build(BuildContext context) {
     actualiser();
     return Scaffold(
+      drawer: customDrawer(context),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.black,

@@ -3,6 +3,7 @@ import 'package:app_dolibarr/screens/contact.dart';
 import 'package:app_dolibarr/screens/mettre_en_ligne.dart';
 import 'package:app_dolibarr/screens/modifier_contact.dart';
 import 'package:app_dolibarr/screens/nouveau_tiers.dart';
+import 'package:app_dolibarr/screens/products/product_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,6 +14,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Bienvenue dans Dolibarr',
       darkTheme: ThemeData.dark(),
       initialRoute: '/',
