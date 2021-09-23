@@ -14,12 +14,12 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Bienvenue dans Dolibarr',
       darkTheme: ThemeData.dark(),
       initialRoute: '/',
       routes: {
-        //'/': (context) => AppDolibarr(),
-        '/': (context) => ProductView(),
+        '/': (context) => AppDolibarr(),
         '/nouveautiers': (context) => NouveauTiers(),
         // '/contact': (context) => Contact(int id),
         '/mettreEnLigne': (context) => MettreEnLigne(),

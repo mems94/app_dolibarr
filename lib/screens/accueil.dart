@@ -1,3 +1,4 @@
+import 'package:app_dolibarr/components/drawer.dart';
 import 'package:app_dolibarr/models/produit.dart';
 import 'package:app_dolibarr/models/produit_tiers.dart';
 import 'package:app_dolibarr/screens/contact.dart';
@@ -144,6 +145,7 @@ class _AppDolibarrState extends State<AppDolibarr> {
   Widget build(BuildContext context) {
     actualiser();
     return Scaffold(
+      drawer: customDrawer(context),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.black,
