@@ -5,7 +5,10 @@ import 'package:app_dolibarr/utilities/date_formatted.dart';
 import 'package:app_dolibarr/utilities/dbHelper_innerjoin.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class NouveauTiers extends StatefulWidget {
+  Function produitCallback;
+  NouveauTiers(this.produitCallback);
   @override
   _NouveauTiersState createState() => _NouveauTiersState();
 }
@@ -22,6 +25,8 @@ class _NouveauTiersState extends State<NouveauTiers> {
   String designation = "";
   double prixUnitaire = 0.0;
   int quantite = 0;
+
+  Produit unProduitSaved;
 
   var db = DbHelperProduit();
   // var dbTiers = DbHelperTiers();
@@ -56,7 +61,7 @@ class _NouveauTiersState extends State<NouveauTiers> {
     Produit unProduit =
         Produit(unTiersSaved.id, designation, prixUnitaire, quantite);
 
-    Produit unProduitSaved = await db.save(unProduit);
+    unProduitSaved = await db.save(unProduit);
 
     debugPrint("${unProduitSaved.id}");
 
@@ -78,7 +83,7 @@ class _NouveauTiersState extends State<NouveauTiers> {
       body: Container(
         padding: EdgeInsets.all(13.0),
         alignment: Alignment.center,
-        child: ListView(
+        child: Column(
           children: [
             Padding(
               padding: EdgeInsets.only(top: 5.0),
@@ -212,8 +217,9 @@ class _NouveauTiersState extends State<NouveauTiers> {
                   // designation = _designationController.text;
                   // prixUnitaire = _prixUnitaireController.text;
                   ajoutProduit();
+                  widget.produitCallback(unProduitSaved);
                   Navigator.pushNamed(context, '/');
-                  setState(() {});
+                  // setState(() {});
                 },
                 child: Text(
                   'Enregistrer',

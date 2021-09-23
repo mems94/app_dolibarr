@@ -1,6 +1,7 @@
 import 'package:app_dolibarr/models/produit.dart';
 import 'package:app_dolibarr/models/produit_tiers.dart';
 import 'package:app_dolibarr/screens/contact.dart';
+import 'package:app_dolibarr/screens/nouveau_tiers.dart';
 import 'package:app_dolibarr/utilities/dbHelper_innerjoin.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -190,7 +191,39 @@ class _AppDolibarrState extends State<AppDolibarr> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                onPressed: () => Navigator.pushNamed(context, '/nouveautiers'),
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (context) => SingleChildScrollView(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                        ),
+                        child: NouveauTiers((unNouveauProduit) {
+                          setState(() {
+                            listeProduitTiers.add(unNouveauProduit);
+                          });
+                          print('Produit de la classe nouveau tiers ajouté');
+                          Navigator.pop(context);
+                        }),
+                        // child: AddTaskList(
+                        //   (newTaskTitle) {
+                        //     setState(
+                        //       () {
+                        //         tasks.add(
+                        //           Task(name: newTaskTitle),
+                        //         );
+                        //       },
+                        //     );
+                        //     Navigator.pop(context);
+                        //   },
+                        // ),
+                      ),
+                    ),
+                  );
+                },
+                // onPressed: () => Navigator.pushNamed(context, '/nouveautiers'),
                 child: Text(
                   'Nouveau',
                 ),

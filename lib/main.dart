@@ -18,7 +18,7 @@ class App extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => AppDolibarr(),
-        '/nouveautiers': (context) => NouveauTiers(),
+        // '/nouveautiers': (context) => NouveauTiers(Function f),
         // '/contact': (context) => Contact(int id),
         '/mettreEnLigne': (context) => MettreEnLigne(),
         '/modifierContact': (context) => ModifierContact(),
