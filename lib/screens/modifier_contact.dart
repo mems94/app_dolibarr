@@ -19,9 +19,10 @@ class ModifierContactState extends State<ModifierContact> {
       body: Container(
         child: Column(
           children: [
-            buildTextField("Designation", Icons.format_quote, null),
-            buildTextField("Quantité", Icons.batch_prediction_rounded, null),
-            buildTextField("PU", Icons.attach_money, null),
+            buildTextField("Designation", Icons.format_quote, null, false),
+            buildTextField(
+                "Quantité", Icons.batch_prediction_rounded, null, false),
+            buildTextField("PU", Icons.attach_money, null, false),
             Center(
               child: ElevatedButton(
                 onPressed: () => Navigator.pushNamed(context, '/'),

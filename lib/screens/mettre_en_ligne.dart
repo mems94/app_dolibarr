@@ -14,25 +14,27 @@ class MettreEnLigne extends StatelessWidget {
           left: 20.0,
           right: 20.0,
         ),
-        child: Column(
-          children: [
-            buildTextField("Identifiant", Icons.person, null),
-            buildTextField("Mot de passe", Icons.lock, null),
-            Padding(
-              padding: EdgeInsets.only(top: 20.0),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.green,
-                textStyle: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              buildTextField("Identifiant", Icons.person, null, false),
+              buildTextField("Mot de passe", Icons.lock, null, true),
+              Padding(
+                padding: EdgeInsets.only(top: 20.0),
               ),
-              onPressed: () => debugPrint("Mis en ligne"),
-              child: Text('Uploader'),
-            )
-          ],
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green,
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onPressed: () => debugPrint("Mis en ligne"),
+                child: Text('Uploader'),
+              )
+            ],
+          ),
         ),
       ),
     );

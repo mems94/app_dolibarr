@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 TextField buildTextField(String textNT, IconData iconsNT,
-    TextEditingController textFieldController) {
+    TextEditingController textFieldController, bool obsText) {
   return TextField(
+    obscureText: obsText,
     controller: textFieldController,
     style: TextStyle(
       fontWeight: FontWeight.bold,

@@ -27,7 +27,7 @@ class DbHelperProduit {
   //Field for db and table
   static const String TABLE = 'Produit';
   static const String TABLE_TIERS = 'Tiers';
-  static const String DB_NAME = 'Produit5.db';
+  static const String DB_NAME = 'Produit10.db';
 
   Future<Database> get db async {
     if (_db != null) {

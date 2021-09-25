@@ -1,14 +1,16 @@
 import 'package:app_dolibarr/components/buildTextField.dart';
 import 'package:app_dolibarr/models/produit.dart';
+import 'package:app_dolibarr/models/produit_tiers_model.dart';
 import 'package:app_dolibarr/models/tiers.dart';
 import 'package:app_dolibarr/utilities/date_formatted.dart';
 import 'package:app_dolibarr/utilities/dbHelper_innerjoin.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class NouveauTiers extends StatefulWidget {
-  Function produitCallback;
-  NouveauTiers(this.produitCallback);
+  // Function produitCallback;
+  // NouveauTiers(this.produitCallback);
   @override
   _NouveauTiersState createState() => _NouveauTiersState();
 }
@@ -83,150 +85,186 @@ class _NouveauTiersState extends State<NouveauTiers> {
       body: Container(
         padding: EdgeInsets.all(13.0),
         alignment: Alignment.center,
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 5.0),
-            ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'TIERS',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 5.0),
+              ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'TIERS',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
-            ),
-            //dropdownbutton button
-            Row(
-              children: [
-                Icon(Icons.baby_changing_station_rounded),
-                Padding(padding: EdgeInsets.only(left: 15.0)),
-                Expanded(
-                  child: DropdownButton<String>(
-                    isExpanded: true,
-                    disabledHint: Text('Type'),
-                    value: listeDeroulanteType,
-                    hint: Text('Type'),
-                    icon: const Icon(Icons.arrow_downward),
-                    iconSize: 24,
-                    elevation: 16,
-                    style: const TextStyle(
-                      color: Colors.grey,
+              //dropdownbutton button
+              Row(
+                children: [
+                  Icon(Icons.baby_changing_station_rounded),
+                  Padding(padding: EdgeInsets.only(left: 15.0)),
+                  Expanded(
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      disabledHint: Text('Type'),
+                      value: listeDeroulanteType,
+                      hint: Text('Type'),
+                      icon: const Icon(Icons.arrow_downward),
+                      iconSize: 24,
+                      elevation: 16,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                      ),
+                      underline: Container(
+                        height: 2,
+                        color: Colors.grey,
+                      ),
+                      onChanged: (String newValue) {
+                        setState(() {
+                          listeDeroulanteType = newValue;
+                        });
+                      },
+                      items: <String>['Achat', 'Vente']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
                     ),
-                    underline: Container(
-                      height: 2,
-                      color: Colors.grey,
-                    ),
-                    onChanged: (String newValue) {
-                      setState(() {
-                        listeDeroulanteType = newValue;
-                      });
-                    },
-                    items: <String>['Achat', 'Vente']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
                   ),
-                ),
-              ],
-            ),
-            // buildTextField("Type", Icons.merge_type),
-            buildTextField("Contact", Icons.contact_phone, _contactController),
-            //Dropdown button paiement
-            Row(
-              children: [
-                Icon(Icons.ac_unit),
-                Padding(padding: EdgeInsets.only(left: 15.0)),
-                Expanded(
-                  child: DropdownButton<String>(
-                    isExpanded: true,
-                    value: listeDeroulantePaiement,
-                    hint: Row(
-                      children: [
-                        Icon(Icons.ac_unit),
-                        Text('Paiement'),
-                      ],
+                ],
+              ),
+              // buildTextField("Type", Icons.merge_type),
+              buildTextField(
+                  "Contact", Icons.contact_phone, _contactController, false),
+              //Dropdown button paiement
+              Row(
+                children: [
+                  Icon(Icons.ac_unit),
+                  Padding(padding: EdgeInsets.only(left: 15.0)),
+                  Expanded(
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      value: listeDeroulantePaiement,
+                      hint: Row(
+                        children: [
+                          Icon(Icons.ac_unit),
+                          Text('Paiement'),
+                        ],
+                      ),
+                      icon: const Icon(Icons.arrow_downward),
+                      iconSize: 24,
+                      elevation: 16,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                      ),
+                      // underline: Container(
+                      //   height: 2,
+                      //   color: Colors.grey,
+                      // ),
+                      onChanged: (String newValue) {
+                        setState(() {
+                          listeDeroulantePaiement = newValue;
+                        });
+                      },
+                      items: <String>['Cheque', 'Credit', 'Espece']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
                     ),
-                    icon: const Icon(Icons.arrow_downward),
-                    iconSize: 24,
-                    elevation: 16,
-                    style: const TextStyle(
-                      color: Colors.grey,
-                    ),
-                    // underline: Container(
-                    //   height: 2,
-                    //   color: Colors.grey,
-                    // ),
-                    onChanged: (String newValue) {
-                      setState(() {
-                        listeDeroulantePaiement = newValue;
-                      });
-                    },
-                    items: <String>['Cheque', 'Credit', 'Espece']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
                   ),
-                ),
-              ],
-            ),
-            // buildTextField("Paiement", Icons.money),
-            // buildTextField("Produit", Icons.add_shopping_cart),
-            Padding(
-              padding: EdgeInsets.only(top: 5.0),
-            ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "PRODUIT",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                ],
+              ),
+              // buildTextField("Paiement", Icons.money),
+              // buildTextField("Produit", Icons.add_shopping_cart),
+              Padding(
+                padding: EdgeInsets.only(top: 5.0),
+              ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "PRODUIT",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
-            ),
-            buildTextField(
-                "Designation", Icons.add_shopping_cart, _designationController),
-            buildTextField(
-                "PU", Icons.download_outlined, _prixUnitaireController),
-            buildTextField("Quantité", Icons.add, _quantiteController),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-            ),
-            Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.green,
-                  textStyle: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+              buildTextField("Designation", Icons.add_shopping_cart,
+                  _designationController, false),
+              buildTextField("PU", Icons.download_outlined,
+                  _prixUnitaireController, false),
+              buildTextField("Quantité", Icons.add, _quantiteController, false),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+              ),
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green,
+                    textStyle: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onPressed: () async {
+                    contact = _contactController.text;
+                    designation = _designationController.text;
+                    prixUnitaire = double.parse(_prixUnitaireController.text);
+                    quantite = int.parse(_quantiteController.text);
+
+                    //Add tiers
+                    Tiers unTiers = Tiers(listeDeroulanteType, contact,
+                        dateFormatted(), listeDeroulantePaiement);
+
+                    // Tiers unTiersSaved = await db.saveTiers(unTiers);
+                    // Add Tiers to database
+                    int unTiersSavedId = await Provider.of<ProduitTiersModel>(
+                            context,
+                            listen: false)
+                        .addTiers(unTiers);
+
+                    print("FROM PROVIDER - Tiers saved $unTiersSavedId");
+                    //Create
+                    Produit unProduit = Produit(
+                        unTiersSavedId, designation, prixUnitaire, quantite);
+                    //Add product
+                    int unProduitSavedId = await Provider.of<ProduitTiersModel>(
+                            context,
+                            listen: false)
+                        .addProduitTiersToList(unProduit);
+                    // unProduitSaved = await db.save(unProduit);
+
+                    print("FROM PROVIDER - Produit saved $unProduitSavedId");
+                    // contact = _contactController.text;
+                    // designation = _designationController.text;
+                    // prixUnitaire = _prixUnitaireController.text;
+                    // ajoutProduit();
+
+                    _contactController.clear();
+                    _designationController.clear();
+                    _prixUnitaireController.clear();
+
+                    // widget.produitCallback(unProduitSaved);
+                    Navigator.pushNamed(context, '/');
+                    // setState(() {});
+                  },
+                  child: Text(
+                    'Enregistrer',
                   ),
                 ),
-                onPressed: () {
-                  // contact = _contactController.text;
-                  // designation = _designationController.text;
-                  // prixUnitaire = _prixUnitaireController.text;
-                  ajoutProduit();
-                  widget.produitCallback(unProduitSaved);
-                  Navigator.pushNamed(context, '/');
-                  // setState(() {});
-                },
-                child: Text(
-                  'Enregistrer',
-                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
