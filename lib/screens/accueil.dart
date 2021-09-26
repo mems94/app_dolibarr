@@ -1,8 +1,3 @@
-import 'package:app_dolibarr/components/drawer.dart';
-import 'package:app_dolibarr/models/produit.dart';
-import 'package:app_dolibarr/models/produit_tiers.dart';
-import 'package:app_dolibarr/screens/contact.dart';
-import 'package:app_dolibarr/screens/nouveau_tiers.dart';
 import 'package:app_dolibarr/screens/produit_tiers_list.dart';
 import 'package:app_dolibarr/utilities/dbHelper_innerjoin.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +25,6 @@ class _AppDolibarrState extends State<AppDolibarr> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     final notifier = Provider.of<ProduitTiersModel>(context);
     if (this.notifier != notifier) {
@@ -161,9 +155,8 @@ class _AppDolibarrState extends State<AppDolibarr> {
 
   @override
   Widget build(BuildContext context) {
-    // actualiser();
     return Scaffold(
-      drawer: customDrawer(context),
+      // drawer: customDrawer(context),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.black,
@@ -199,54 +192,59 @@ class _AppDolibarrState extends State<AppDolibarr> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Row(
         children: [
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.only(left: 30.0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.green,
-                  padding: EdgeInsets.all(10.0),
-                  textStyle: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
+          Visibility(
+            visible: Provider.of<ProduitTiersModel>(context, listen: true)
+                .stateButtonNouveau,
+            child: Expanded(
+              child: Container(
+                padding: EdgeInsets.only(left: 30.0),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green,
+                    padding: EdgeInsets.all(10.0),
+                    textStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                // onPressed: () {
-                //   // showModalBottomSheet(
-                //   //   context: context,
-                //   //   isScrollControlled: true,
-                //   //   builder: (context) => SingleChildScrollView(
-                //   //     child: Container(
-                //   //       padding: EdgeInsets.only(
-                //   //         bottom: MediaQuery.of(context).viewInsets.bottom,
-                //   //       ),
-                //   // child: NouveauTiers((unNouveauProduit) {
-                //   //   setState(() {
-                //   //     listeProduitTiers.add(unNouveauProduit);
-                //   //   });
-                //   //   print('Produit de la classe nouveau tiers ajouté');
-                //   //   Navigator.pop(context);
-                //   // }),
-                //   // child: AddTaskList(
-                //   //   (newTaskTitle) {
-                //   //     setState(
-                //   //       () {
-                //   //         tasks.add(
-                //   //           Task(name: newTaskTitle),
-                //   //         );
-                //   //       },
-                //   //     );
-                //   //     Navigator.pop(context);
-                //   //   },
-                //   // ),
-                //   //     ),
-                //   //   ),
-                //   // );
-                // },
-                onPressed: () => Navigator.pushNamed(context, '/nouveautiers'),
-                child: Text(
-                  'Nouveau',
+                  // onPressed: () {
+                  //   // showModalBottomSheet(
+                  //   //   context: context,
+                  //   //   isScrollControlled: true,
+                  //   //   builder: (context) => SingleChildScrollView(
+                  //   //     child: Container(
+                  //   //       padding: EdgeInsets.only(
+                  //   //         bottom: MediaQuery.of(context).viewInsets.bottom,
+                  //   //       ),
+                  //   // child: NouveauTiers((unNouveauProduit) {
+                  //   //   setState(() {
+                  //   //     listeProduitTiers.add(unNouveauProduit);
+                  //   //   });
+                  //   //   print('Produit de la classe nouveau tiers ajouté');
+                  //   //   Navigator.pop(context);
+                  //   // }),
+                  //   // child: AddTaskList(
+                  //   //   (newTaskTitle) {
+                  //   //     setState(
+                  //   //       () {
+                  //   //         tasks.add(
+                  //   //           Task(name: newTaskTitle),
+                  //   //         );
+                  //   //       },
+                  //   //     );
+                  //   //     Navigator.pop(context);
+                  //   //   },
+                  //   // ),
+                  //   //     ),
+                  //   //   ),
+                  //   // );
+                  // },
+                  onPressed: () =>
+                      Navigator.pushNamed(context, '/nouveautiers'),
+                  child: Text(
+                    'Nouveau',
+                  ),
                 ),
               ),
             ),

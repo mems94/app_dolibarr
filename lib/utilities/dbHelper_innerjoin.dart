@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io' as io;
 import 'package:app_dolibarr/models/produit.dart';
+import 'package:app_dolibarr/models/produit_tiers.dart';
 import 'package:app_dolibarr/models/tiers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
@@ -151,12 +152,15 @@ class DbHelperProduit {
   }
 
 //GET liste des produits AND tiers
-  Future<List<Map>> getProduitsAndTiers() async {
+  Future<List<ProduitTiers>> getProduitsAndTiers() async {
     var dbClient = await db;
     List<Map> maps = await dbClient.rawQuery(
-        "SELECT Produit.id, $CONTACT, $DATE, $PRIX_UNITAIRE, $QUANTITE FROM $TABLE INNER JOIN $TABLE_TIERS ON Produit.idTiers = Tiers.id");
-    // List<Map> produitTiers = [];
-    return maps;
+        "SELECT Produit.id, $DESIGNATION, $CONTACT, $DATE, $PRIX_UNITAIRE, $QUANTITE FROM $TABLE INNER JOIN $TABLE_TIERS ON Produit.idTiers = Tiers.id");
+    List<ProduitTiers> listeProduitTiers = <ProduitTiers>[];
+    for (var i = 0; i < maps.length; i++) {
+      listeProduitTiers.add(ProduitTiers.fromMap(maps[i]));
+    }
+    return listeProduitTiers;
   }
 
   Future close() async {

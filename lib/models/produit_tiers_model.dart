@@ -11,20 +11,30 @@ class ProduitTiersModel extends ChangeNotifier {
   int newListCount;
 
   bool stateButtonMettreAJour = false;
+  bool stateButtonNouveau = true;
 
   DbHelperProduit dbForLogin = DbHelperProduit();
   var dbForProduitTiers = DbHelperProduit();
 
-  List myListProduitTiers = <ProduitTiers>[];
+  List<ProduitTiers> myListProduitTiers = <ProduitTiers>[];
 
   List<ProduitTiers> get listProduitTiers {
+    // notifyListeners();
     return myListProduitTiers;
   }
 
+//show button mettre en ligne
   void showMettreEnLigne() {
     stateButtonMettreAJour = !stateButtonMettreAJour;
+    stateButtonNouveau = !stateButtonNouveau;
     notifyListeners();
   }
+
+//hide button nouveau
+  // void hideButtonNouveau() {
+  //   stateButtonNouveau = !stateButtonNouveau;
+  //   notifyListeners();
+  // }
 
   // Future<int> getCount() async {
   //   int count = await dbForItem.getCount();
@@ -32,9 +42,9 @@ class ProduitTiersModel extends ChangeNotifier {
   //   return count;
   // }
 
-  int get listProduitTiersCount {
-    return myListProduitTiers.length;
-  }
+  // int get listProduitTiersCount {
+  //   return myListProduitTiers.length;
+  // }
 
   // set listProduitTiers{
 
@@ -50,13 +60,23 @@ class ProduitTiersModel extends ChangeNotifier {
 //Add new tiers to Tiers table
   Future<int> addTiers(Tiers tiers) async {
     Tiers unTiersSaved = await dbForProduitTiers.saveTiers(tiers);
+    notifyListeners();
     return unTiersSaved.id;
+  }
+
+  //get Product from the list
+
+  ProduitTiers getOneProductFromList(int id) {
+    ProduitTiers oneProduct = myListProduitTiers[(id - 1)];
+    notifyListeners();
+    return oneProduct;
   }
 
 //Get produit from database
   Future<Produit> getOneProduit(int id) async {
     Produit produit = await dbForProduitTiers.getProduit1(id);
     print('Produit obtenu ${produit.designation}');
+    notifyListeners();
     return produit;
   }
 
@@ -67,6 +87,7 @@ class ProduitTiersModel extends ChangeNotifier {
     // myListAccess.add(newAccessItem);
 
     updateProduitTiersListView();
+    // notifyListeners();
     print('Item $unProduitSaved.id added');
     return unProduitSaved.id;
   }
@@ -88,15 +109,16 @@ class ProduitTiersModel extends ChangeNotifier {
 //    myListAccess = List<LisaAccessItem>();
     // Future<List<LisaAccessItem>> itemList = dbForItem.getItems();
     myListProduitTiers.clear();
-    List<Map> ptList = await dbForProduitTiers.getProduitsAndTiers();
+    Future<List<ProduitTiers>> ptList = dbForProduitTiers.getProduitsAndTiers();
     // ptList.then((eachItem) {
     //   this.myListProduitTiers = eachItem;
     // this.newListCount = eachItem.length;
-    ptList.forEach((element) {
+    ptList.then((element) {
       // myListProduitTiers = ProduitTiers.fromMap(element);
-      myListProduitTiers.add(ProduitTiers.fromMap(element));
+      // myListProduitTiers.add(ProduitTiers.fromMap(element));
+      this.myListProduitTiers = element;
+      notifyListeners();
     });
-    notifyListeners();
     // });
   }
 

@@ -1,32 +1,16 @@
-import 'dart:io';
-
 import 'package:app_dolibarr/models/produit.dart';
-import 'package:app_dolibarr/models/produit_tiers.dart';
 import 'package:app_dolibarr/models/produit_tiers_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class Contact extends StatefulWidget {
-  final int id;
-  const Contact(this.id);
-  @override
-  _ContactState createState() => _ContactState();
-}
-
-class _ContactState extends State<Contact> {
-  Produit pdt;
+class Contact extends StatelessWidget {
+  int id;
   String designation;
   int quantite;
   double prixUnitaire;
-  @override
-  void initState() {
-    super.initState();
-    debugPrint('${widget.id}');
-    obtenirPdt();
-    // obtenirUnProduit(widget.id);
-    // creerUneLigneProduit();
-  }
+  Produit pdt;
 
+  Contact(this.id);
   // var dbProduit = DbHelperProduit();
   // List<Produit> listeProduit = <Produit>[];
   // void obtenirUnProduit(int id) async {
@@ -103,10 +87,10 @@ class _ContactState extends State<Contact> {
     ];
   }
 
-  void obtenirPdt() async {
-    pdt = await Provider.of<ProduitTiersModel>(context, listen: false)
-        .getOneProduit(widget.id);
-  }
+  // void obtenirPdt() async {
+  //   pdt = await Provider.of<ProduitTiersModel>(context, listen: false)
+  //       .getOneProduit(id);
+  // }
 
   @override
   Widget build(Object context) {
@@ -117,9 +101,15 @@ class _ContactState extends State<Contact> {
         ),
         body: DataTable(columns: creationColumn(), rows: [
           DataRow(cells: [
-            DataCell(Text(designation ?? 'Salle')),
-            DataCell(Text(prixUnitaire.toString() ?? '50000')),
-            DataCell(Text(quantite.toString() ?? '2'))
+            DataCell(Text(
+                '${Provider.of<ProduitTiersModel>(context, listen: true).getOneProductFromList(id).designation}' ??
+                    'Salle')),
+            DataCell(Text(
+                '${Provider.of<ProduitTiersModel>(context, listen: true).getOneProductFromList(id).prixUnitaire.toString()}' ??
+                    '50000')),
+            DataCell(Text(
+                '${Provider.of<ProduitTiersModel>(context, listen: true).getOneProductFromList(id).quantite.toString()}' ??
+                    '2'))
           ])
         ]));
   }
