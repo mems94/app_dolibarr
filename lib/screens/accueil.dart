@@ -160,7 +160,6 @@ class _AppDolibarrState extends State<AppDolibarr> {
       // drawer: customDrawer(context),
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.black,
         title: Text(
           'Accueil',
           textAlign: TextAlign.center,
@@ -201,7 +200,7 @@ class _AppDolibarrState extends State<AppDolibarr> {
                 padding: EdgeInsets.only(left: 30.0),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.green,
+                    // primary: Colors.green,
                     padding: EdgeInsets.all(10.0),
                     textStyle: TextStyle(
                       color: Colors.white,
@@ -261,7 +260,7 @@ class _AppDolibarrState extends State<AppDolibarr> {
                 padding: EdgeInsets.only(right: 30.0),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.green,
+                    // primary: Colors.green,
                     padding: EdgeInsets.all(10.0),
                     textStyle: TextStyle(
                       color: Colors.white,

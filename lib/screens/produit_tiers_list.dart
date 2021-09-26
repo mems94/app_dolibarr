@@ -45,8 +45,9 @@ class _ProduitTiersListState extends State<ProduitTiersList> {
                             DataCell(
                                 GestureDetector(
                                   child: Icon(
-                                    Icons.info_outline,
-                                    color: Color(0xFF24D876),
+                                    Icons.add,
+                                    color: Colors.blueAccent,
+                                    // color: Color(0xFF24D876),
                                     size: 35.0,
                                   ),
                                 ), onTap: () {

@@ -34,7 +34,8 @@ class App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Bienvenue dans Dolibarr',
-      darkTheme: ThemeData.dark(),
+      darkTheme:
+          ThemeData(primarySwatch: Colors.blue, primaryColor: Colors.blue),
       initialRoute: '/',
       routes: {
         '/': (context) => AppDolibarr(),
