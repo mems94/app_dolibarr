@@ -1,3 +1,4 @@
+import 'package:app_dolibarr/screens/login/login_view.dart';
 import 'package:app_dolibarr/screens/produit_tiers_list.dart';
 import 'package:app_dolibarr/utilities/dbHelper_innerjoin.dart';
 import 'package:flutter/material.dart';
@@ -268,8 +269,16 @@ class _AppDolibarrState extends State<AppDolibarr> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  onPressed: () =>
-                      Navigator.pushNamed(context, '/mettreEnLigne'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return LoginView();
+                        },
+                      ),
+                    );
+                  },
                   child: Text('Mettre en ligne'),
                 ),
               ),
