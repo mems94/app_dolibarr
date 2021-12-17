@@ -4,8 +4,9 @@ class Tiers {
   String contact;
   String date;
   String paiement;
+  int status = 0;
 
-  Tiers(this.type, this.contact, this.date, this.paiement);
+  Tiers(this.type, this.contact, this.date, this.paiement, this.status);
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
@@ -13,7 +14,8 @@ class Tiers {
       'type': type,
       'contact': contact,
       'date': date,
-      'paiement': paiement
+      'paiement': paiement,
+      'status': status
     };
 
     return map;
@@ -25,5 +27,6 @@ class Tiers {
     contact = map['contact'];
     date = map['date'];
     paiement = map['paiement'];
+    status = map['status'];
   }
 }

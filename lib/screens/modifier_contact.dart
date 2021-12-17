@@ -2,6 +2,8 @@ import 'package:app_dolibarr/components/buildTextField.dart';
 import 'package:flutter/material.dart';
 
 class ModifierContact extends StatefulWidget {
+  int id;
+  ModifierContact(int id);
   @override
   State<StatefulWidget> createState() {
     return ModifierContactState();

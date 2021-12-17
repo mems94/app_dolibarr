@@ -1,28 +1,22 @@
-import 'package:app_dolibarr/screens/login/login_view.dart';
+import 'package:app_dolibarr/screens/liste_produit_envoyer.dart';
+import 'package:app_dolibarr/screens/mettre_en_ligne.dart';
 import 'package:app_dolibarr/screens/produit_tiers_list.dart';
-import 'package:app_dolibarr/utilities/dbHelper_innerjoin.dart';
+import 'package:app_dolibarr/services/check_connectivity.dart';
+import 'package:app_dolibarr/utilities/mettre_en_ligne_no_auth.dart';
+import 'package:app_dolibarr/utilities/showSnackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:app_dolibarr/models/produit_tiers_model.dart';
 import 'package:provider/provider.dart';
-//import 'package:http/http.dart' as http;
 
 class AppDolibarr extends StatefulWidget {
   @override
   _AppDolibarrState createState() => _AppDolibarrState();
 }
 
-class _AppDolibarrState extends State<AppDolibarr> {
-  // List<ProduitTiers> listeProduitTiers = <ProduitTiers>[];
-  // int _sortColumnIndex = 0;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   obtenirListeProduit();
-  // }
-
+class _AppDolibarrState extends State<AppDolibarr> with WidgetsBindingObserver {
   ProduitTiersModel notifier;
-  // bool isVisible = false;
+
+  Color color;
 
   @override
   void didChangeDependencies() {
@@ -30,165 +24,98 @@ class _AppDolibarrState extends State<AppDolibarr> {
     final notifier = Provider.of<ProduitTiersModel>(context);
     if (this.notifier != notifier) {
       this.notifier = notifier;
-      Future.microtask(() => notifier.updateProduitTiersListView());
+      Future.microtask(() {
+        notifier.updateProduitTiersListView();
+        // notifier.getListTiersOnline();
+      });
     }
   }
 
-  // Future fetchProduit(http.Client client) async {
-  //   final data = await client.get(
-  //       'http://192.168.43.226/vahatra/api/index.php/login?login=admin&password=vahatra');
-  //   print(data);
-  // }
+//Add observer when the app is starting
+  @override
+  void initState() {
+    super.initState();
+    changeColor();
+    WidgetsBinding.instance.addObserver(this);
+  }
 
-  // void actualiser() {
-  //   setState(() {});
-  // }
+//Useful action when the app is disposed
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
 
-  var dbProduit = DbHelperProduit();
+//Action to do when app closed or inactive
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.detached) {
+      var provider = Provider.of<ProduitTiersModel>(context, listen: false);
+      //Delete saved token during fisrt connexion to dolibarr
+      provider.deleteSavedToken();
+      print('Token deleted');
+      //Changing the user state to disconnected, put bool connected to false
+      provider.logoutUser();
+      print('User log out');
+    }
+  }
 
-  // void obtenirListeProduit() async {
-  //   List<Map> maps = await dbProduit.getProduitsAndTiers();
-  //   setState(() {
-  //     maps.forEach((element) {
-  //       listeProduitTiers.add(ProduitTiers.fromMap(element));
-  //     });
-  //   });
-
-  // for (var i = 0; i < listeProduitTiers.length; i++) {
-  //   debugPrint("LIGNE $i");
-  //   debugPrint(listeProduitTiers[i].contact);
-  //   debugPrint(listeProduitTiers[i].id.toString());
-  //   debugPrint(listeProduitTiers[i].date);
-  //   debugPrint(listeProduitTiers[i].quantite.toString());
-  //   debugPrint(listeProduitTiers[i].prixUnitaire.toString());
-  // }
-
-  // if (maps.length > 0) {
-  //   for (int i = 0; i < maps.length; i++) {
-  //     // mesProduitsAndTiers.add(maps[i]);
-  //     debugPrint("${maps[i].}");
-
-  //   }
-  // }
-  // }
-
-  // DataRow creerUneLigneProduitTiers(ProduitTiers produitT) {
-  //   debugPrint("Creation ligne executée");
-  //   return DataRow(
-  //     key: ValueKey(produitT.id),
-  //     cells: [
-  //       DataCell(
-  //         Text(produitT.date),
-  //       ),
-  //       DataCell(
-  //         Text(produitT.contact), //
-  //         // placeholder: false,
-  //         // showEditIcon: true,
-  //         // onTap: () {
-  //         //   print('onTap');
-  //         // },
-  //       ),
-  //       DataCell(
-  //         // Text(
-  //         //   // (produitT.prixUnitaire * produitT.quantite).toString(),
-  //         // ),
-  //       ),
-  //       DataCell(
-  //         GestureDetector(
-  //           // onTap: () {
-  //           //   // Navigator.pushNamed(context, '/contact');
-  //           //   Navigator.push(
-  //           //     context,
-  //           //     MaterialPageRoute(builder: (context) => Contact(produitT.id)),
-  //           //   );
-  //           // },
-  //           child: Icon(
-  //             Icons.info_outline,
-  //             color: Colors.green,
-  //             size: 32.0,
-  //           ),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
-
-  // List<DataColumn> creationColumn() {
-  //   return [
-  //     DataColumn(
-  //       //Column date
-  //       label: Text(
-  //         'Date',
-  //         style: TextStyle(
-  //           fontStyle: FontStyle.normal,
-  //         ),
-  //       ),
-  //     ),
-  //     //Column Contact
-  //     DataColumn(
-  //       label: Text(
-  //         'Contact',
-  //         style: TextStyle(
-  //           fontStyle: FontStyle.normal,
-  //         ),
-  //       ),
-  //     ),
-  //     //Column Total
-  //     DataColumn(
-  //       label: Text(
-  //         'Total',
-  //         style: TextStyle(
-  //           fontStyle: FontStyle.normal,
-  //         ),
-  //       ),
-  //     ),
-  //     //Column Plus
-  //     DataColumn(
-  //       label: Text(
-  //         'Info',
-  //         style: TextStyle(
-  //           fontStyle: FontStyle.normal,
-  //         ),
-  //       ),
-  //     ),
-  //   ];
-  // }
+  //Change color of the connected or not button
+  void changeColor() async {
+    color = await Provider.of<ProduitTiersModel>(context, listen: false)
+        .statusColor();
+    print("status color (Accueil) : $color");
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // drawer: customDrawer(context),
+      // drawer: cust
+      // omDrawer(context),
       appBar: AppBar(
+        actions: [
+          IconButton(
+              icon: Icon(
+                Icons.brightness_1,
+                color: color,
+                size: 18.0,
+              ),
+              onPressed: () {
+                print('Status button pressed');
+              }),
+          IconButton(
+              icon: Icon(
+                Icons.refresh,
+                color: Colors.white,
+                size: 30.0,
+              ),
+              onPressed: () {
+                Provider.of<ProduitTiersModel>(context, listen: false)
+                    .actualisation();
+                Navigator.popAndPushNamed(context, '/dolibarr');
+              })
+        ],
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => ListeProduitEnvoyer()));
+          },
+          child: Icon(
+            Icons.article_outlined,
+            color: Colors.white,
+            size: 30.0,
+          ),
+        ),
         centerTitle: true,
         title: Text(
-          'Accueil',
+          'Mes produits',
           textAlign: TextAlign.center,
         ),
       ),
-      body: ProduitTiersList(), // ProduitTiersList(),
 
-      // ListView(
-      //   scrollDirection: Axis.horizontal,
-      //   children: [
-      //     SizedBox(
-      //       width: MediaQuery.of(context).size.width,
-      //       child: SingleChildScrollView(
-      //         child: DataTable(
-      //           // sortColumnIndex: _sortColumnIndex,
-      //           sortAscending: true,
-      //           columnSpacing: 0,
-      //           dividerThickness: 1,
-      //           //columns for the headers
-      //           columns: creationColumn(),
-      //           //Row for products
-      //           rows: listeProduitTiers
-      //               .map((pt) => creerUneLigneProduitTiers(pt))
-      //               .toList(),
-      //         ),
-      //       ),
-      //     ),
-      //   ],
-      // ),
+      body: ProduitTiersList(), // ProduitTiersList(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Row(
         children: [
@@ -208,38 +135,6 @@ class _AppDolibarrState extends State<AppDolibarr> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  // onPressed: () {
-                  //   // showModalBottomSheet(
-                  //   //   context: context,
-                  //   //   isScrollControlled: true,
-                  //   //   builder: (context) => SingleChildScrollView(
-                  //   //     child: Container(
-                  //   //       padding: EdgeInsets.only(
-                  //   //         bottom: MediaQuery.of(context).viewInsets.bottom,
-                  //   //       ),
-                  //   // child: NouveauTiers((unNouveauProduit) {
-                  //   //   setState(() {
-                  //   //     listeProduitTiers.add(unNouveauProduit);
-                  //   //   });
-                  //   //   print('Produit de la classe nouveau tiers ajouté');
-                  //   //   Navigator.pop(context);
-                  //   // }),
-                  //   // child: AddTaskList(
-                  //   //   (newTaskTitle) {
-                  //   //     setState(
-                  //   //       () {
-                  //   //         tasks.add(
-                  //   //           Task(name: newTaskTitle),
-                  //   //         );
-                  //   //       },
-                  //   //     );
-                  //   //     Navigator.pop(context);
-                  //   //   },
-                  //   // ),
-                  //   //     ),
-                  //   //   ),
-                  //   // );
-                  // },
                   onPressed: () =>
                       Navigator.pushNamed(context, '/nouveautiers'),
                   child: Text(
@@ -268,15 +163,44 @@ class _AppDolibarrState extends State<AppDolibarr> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return LoginView();
-                        },
-                      ),
-                    );
+                  onPressed: () async {
+                    //if user status true, no need to authenticate ifelse must authenticate
+                    //checking connectivity
+                    bool connectivity = await checkConnectivity();
+                    //checking user status
+                    bool userStatus = await Provider.of<ProduitTiersModel>(
+                            context,
+                            listen: false)
+                        .checkUserStatus();
+                    print("Status utilisateur (button) : $userStatus");
+                    //check user Status
+                    if (userStatus) {
+                      //check connectivity
+                      if (connectivity) {
+                        //send product online
+                        mettreEnLigneNoAuth(context);
+                        int changed = await Provider.of<ProduitTiersModel>(
+                                context,
+                                listen: false)
+                            .changeUserStatus();
+                        print("Etat Status => $changed");
+                      } else {
+                        //SnackBar for no internet access
+                        showMySnackbar(
+                            context, 'Vous n\'avez pas d\'accces internet');
+                      }
+                      //if user status is false (not connected)
+                    } else {
+                      //go to the authentication page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return MettreEnLigne();
+                          },
+                        ),
+                      );
+                    }
                   },
                   child: Text('Mettre en ligne'),
                 ),

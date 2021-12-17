@@ -35,8 +35,8 @@ class Produit {
     this.quantite = obj['quantite'];
   }
 
-  int get getId => id;
-  String get getDesignation => designation;
-  double get getPrixUnitaire => prixUnitaire;
-  int get getQuantite => quantite;
+  // int get id => _id;
+  // String get designation => _designation;
+  // double get prixUnitaire => _prixUnitaire;
+  // int get quantite => _quantite;
 }

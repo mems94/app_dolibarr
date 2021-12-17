@@ -1,5 +1,5 @@
-import 'package:app_dolibarr/screens/login/login_view.dart';
-import 'package:app_dolibarr/utilities/navigation_helper.dart';
+import 'package:app_dolibarr/screens/accueil.dart';
+import 'package:app_dolibarr/screens/liste_produit_envoyer.dart';
 import 'package:flutter/material.dart';
 
 Drawer customDrawer(BuildContext context) {
@@ -9,18 +9,24 @@ Drawer customDrawer(BuildContext context) {
       children: [
         const DrawerHeader(
           decoration: BoxDecoration(
-            color: Colors.blue,
+            color: Colors.green,
           ),
           child: Text('Menu'),
         ),
         ListTile(
-          title: const Text('Hors ligne'),
-          onTap: () {},
+          leading: Icon(Icons.circle),
+          title: const Text('Non envoyé'),
+          onTap: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => AppDolibarr()));
+          },
         ),
         ListTile(
-          title: const Text('En ligne'),
+          leading: Icon(Icons.send),
+          title: const Text('Dejà envoyé'),
           onTap: () {
-            goto(context, LoginView());
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => ListeProduitEnvoyer()));
           },
         ),
       ],
